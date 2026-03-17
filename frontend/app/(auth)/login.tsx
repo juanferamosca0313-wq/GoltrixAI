@@ -91,6 +91,7 @@ export default function Login() {
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
+      <Text style={styles.credit}>Desarrollado por Felipe</Text>
     </SafeAreaView>
   );
 }
@@ -127,4 +128,5 @@ const styles = StyleSheet.create({
   linkContainer: { marginTop: 32, alignItems: 'center' },
   link: { color: theme.colors.text.secondary, fontSize: theme.font.sm },
   linkAccent: { color: theme.colors.brand.primary, fontWeight: '600' },
+  credit: { position: 'absolute', bottom: 16, left: 20, fontSize: 11, color: theme.colors.brand.primary, opacity: 0.6 },
 });

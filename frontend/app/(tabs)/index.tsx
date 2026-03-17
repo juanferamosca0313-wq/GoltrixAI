@@ -124,6 +124,7 @@ export default function Dashboard() {
           </>
         )}
       </ScrollView>
+      <Text style={styles.credit}>Desarrollado por Felipe</Text>
     </SafeAreaView>
   );
 }
@@ -220,4 +221,5 @@ const styles = StyleSheet.create({
   analysisInfo: { flex: 1, marginLeft: 12 },
   analysisFile: { fontSize: theme.font.sm, fontWeight: '600', color: theme.colors.text.primary },
   analysisDate: { fontSize: theme.font.xs, color: theme.colors.text.tertiary, marginTop: 2 },
+  credit: { position: 'absolute', bottom: 8, left: 20, fontSize: 11, color: theme.colors.brand.primary, opacity: 0.6 },
 });
