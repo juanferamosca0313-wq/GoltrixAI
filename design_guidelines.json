@@ -1,0 +1,190 @@
+{
+  "identity": {
+    "app_name": "StrikeAI",
+    "tone": "Precision, Gritty, Futuristic, Professional",
+    "metaphor": "The Digital Locker Room / Cyberpunk Training Ground",
+    "keywords": ["Elite", "Data-Driven", "Night-Mode", "Neon", "Focus"]
+  },
+  "typography": {
+    "font_family": {
+      "display": "Oswald_700Bold",
+      "body": "Inter_400Regular",
+      "data": "JetBrainsMono_400Regular"
+    },
+    "scale": {
+      "xs": 12,
+      "sm": 14,
+      "base": 16,
+      "lg": 18,
+      "xl": 24,
+      "2xl": 30,
+      "3xl": 36,
+      "4xl": 48
+    },
+    "weights": {
+      "regular": "400",
+      "medium": "500",
+      "bold": "700",
+      "black": "900"
+    }
+  },
+  "colors": {
+    "background": {
+      "default": "#09090B",
+      "secondary": "#18181B",
+      "tertiary": "#27272A"
+    },
+    "text": {
+      "primary": "#FAFAFA",
+      "secondary": "#A1A1AA",
+      "tertiary": "#71717A",
+      "inverse": "#09090B"
+    },
+    "brand": {
+      "primary": "#CCFF00",
+      "primary_dim": "rgba(204, 255, 0, 0.2)",
+      "secondary": "#00F0FF",
+      "secondary_dim": "rgba(0, 240, 255, 0.2)",
+      "accent": "#FF003C"
+    },
+    "status": {
+      "success": "#22C55E",
+      "warning": "#EAB308",
+      "error": "#EF4444",
+      "info": "#3B82F6"
+    },
+    "border": {
+      "subtle": "#27272A",
+      "default": "#3F3F46",
+      "focus": "#CCFF00"
+    }
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 16,
+    "lg": 24,
+    "xl": 32,
+    "2xl": 48,
+    "3xl": 64
+  },
+  "layout": {
+    "radius": {
+      "sm": 6,
+      "md": 12,
+      "lg": 18,
+      "full": 9999
+    },
+    "container": {
+      "padding_horizontal": 20,
+      "padding_vertical": 24
+    }
+  },
+  "shadows": {
+    "sm": {
+      "shadowColor": "#000",
+      "shadowOffset": { "width": 0, "height": 1 },
+      "shadowOpacity": 0.2,
+      "shadowRadius": 1.41,
+      "elevation": 2
+    },
+    "md": {
+      "shadowColor": "#000",
+      "shadowOffset": { "width": 0, "height": 2 },
+      "shadowOpacity": 0.25,
+      "shadowRadius": 3.84,
+      "elevation": 5
+    },
+    "glow_primary": {
+      "shadowColor": "#CCFF00",
+      "shadowOffset": { "width": 0, "height": 0 },
+      "shadowOpacity": 0.5,
+      "shadowRadius": 10,
+      "elevation": 10
+    }
+  },
+  "components": {
+    "Button": {
+      "base": {
+        "height": 56,
+        "borderRadius": 9999,
+        "justifyContent": "center",
+        "alignItems": "center",
+        "flexDirection": "row"
+      },
+      "primary": {
+        "backgroundColor": "#CCFF00"
+      },
+      "primary_text": {
+        "color": "#09090B",
+        "fontWeight": "700",
+        "fontSize": 16
+      },
+      "secondary": {
+        "backgroundColor": "#27272A",
+        "borderWidth": 1,
+        "borderColor": "#3F3F46"
+      },
+      "secondary_text": {
+        "color": "#FAFAFA",
+        "fontWeight": "600",
+        "fontSize": 16
+      }
+    },
+    "Card": {
+      "backgroundColor": "#18181B",
+      "borderRadius": 16,
+      "borderWidth": 1,
+      "borderColor": "#27272A",
+      "padding": 20
+    },
+    "Input": {
+      "backgroundColor": "#27272A",
+      "borderRadius": 12,
+      "height": 50,
+      "color": "#FAFAFA",
+      "paddingHorizontal": 16,
+      "borderWidth": 1,
+      "borderColor": "transparent"
+    }
+  },
+  "assets": {
+    "images": {
+      "hero_action": "https://images.unsplash.com/photo-1505250469679-203ad9ced0cb",
+      "stadium_bg": "https://images.unsplash.com/photo-1707898611072-bb5cbae75929",
+      "training_group": "https://images.unsplash.com/photo-1768492263433-b81fdcdce0e9",
+      "video_placeholder": "https://images.unsplash.com/photo-1505250469679-203ad9ced0cb"
+    },
+    "icons_library": "lucide-react-native"
+  },
+  "features_guidelines": {
+    "video_upload": {
+      "instructions": "Use a clear, distraction-free overlay. When processing, show technical 'scanning' animations (e.g., lines scanning the frame) to simulate AI analysis.",
+      "mock_data": {
+        "score": 85,
+        "speed": "105 km/h",
+        "technique_feedback": "Lean forward slightly more to keep the ball low."
+      }
+    },
+    "progress_charts": {
+      "instructions": "Use 'react-native-chart-kit' or similar for dark mode charts. Lines should be Neon Green (#CCFF00) or Cyan (#00F0FF) against the dark background."
+    }
+  },
+  "technical_rules": {
+    "framework": "React Native (Expo)",
+    "styling": "StyleSheet.create ONLY. No styled-components, no Tailwind classes (unless 'nativewind' is explicitly configured, but prefer StyleSheet for stability in this prompt context).",
+    "navigation": "expo-router or react-navigation (Tab based).",
+    "icons": "Use @expo/vector-icons or lucide-react-native.",
+    "safe_area": "Always wrap main views in SafeAreaView from 'react-native-safe-area-context'.",
+    "platform_specific": "Use Platform.OS === 'ios' ? ... : ... for shadow vs elevation."
+  },
+  "universal_guidelines": [
+    "NEVER use <div>, <span>, <p>, <img>, <button>. Use <View>, <Text>, <Image>, <TouchableOpacity>.",
+    "Do not use 'className'. Use 'style={styles.container}'.",
+    "Text strings must always be wrapped in a <Text> component.",
+    "Images must have a source object: source={{ uri: '...' }} and defined width/height.",
+    "Use 'flex: 1' to fill available space.",
+    "Avoid hardcoded screen dimensions. Use 'Dimensions.get('window')' or percentage widths.",
+    "Ensure all touch targets (buttons, icons) are at least 44x44 points."
+  ]
+}
