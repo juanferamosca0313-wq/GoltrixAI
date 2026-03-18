@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
   KeyboardAvoidingView, Platform, ActivityIndicator, Alert, ScrollView,
+  Animated,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,6 +19,28 @@ export default function Login() {
   const { t } = useLanguage();
   const router = useRouter();
 
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(40)).current;
+  const scaleAnim = useRef(new Animated.Value(0.8)).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, { toValue: 1, duration: 800, useNativeDriver: true }),
+      Animated.timing(slideAnim, { toValue: 0, duration: 600, useNativeDriver: true }),
+      Animated.spring(scaleAnim, { toValue: 1, friction: 6, useNativeDriver: true }),
+    ]).start();
+
+    const pulse = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, { toValue: 1.05, duration: 1500, useNativeDriver: true }),
+        Animated.timing(pulseAnim, { toValue: 1, duration: 1500, useNativeDriver: true }),
+      ])
+    );
+    pulse.start();
+    return () => pulse.stop();
+  }, []);
+
   async function handleLogin() {
     if (!email.trim() || !password.trim()) return;
     setLoading(true);
@@ -33,37 +56,42 @@ export default function Login() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.flex}
-      >
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.flex}>
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-          <View style={styles.header}>
-            <Ionicons name="football-outline" size={56} color={theme.colors.brand.primary} />
-            <Text style={styles.title}>Strike<Text style={styles.accent}>AI</Text></Text>
-            <Text style={styles.subtitle}>{t.login}</Text>
-          </View>
+          <Animated.View style={[styles.header, { opacity: fadeAnim, transform: [{ scale: scaleAnim }] }]}>
+            <Animated.View style={[styles.iconGlow, { transform: [{ scale: pulseAnim }] }]}>
+              <Ionicons name="football-outline" size={60} color={theme.colors.brand.primary} />
+            </Animated.View>
+            <Text style={styles.title}>Goltrix<Text style={styles.accent}>AI</Text></Text>
+            <Text style={styles.tagline}>{t.tagline}</Text>
+          </Animated.View>
 
-          <View style={styles.form}>
-            <TextInput
-              testID="login-email-input"
-              style={styles.input}
-              placeholder={t.email}
-              placeholderTextColor={theme.colors.text.tertiary}
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            <TextInput
-              testID="login-password-input"
-              style={styles.input}
-              placeholder={t.password}
-              placeholderTextColor={theme.colors.text.tertiary}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
+          <Animated.View style={[styles.form, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
+            <View style={styles.inputWrap}>
+              <Ionicons name="mail-outline" size={20} color={theme.colors.text.tertiary} style={styles.inputIcon} />
+              <TextInput
+                testID="login-email-input"
+                style={styles.input}
+                placeholder={t.email}
+                placeholderTextColor={theme.colors.text.tertiary}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+            <View style={styles.inputWrap}>
+              <Ionicons name="lock-closed-outline" size={20} color={theme.colors.text.tertiary} style={styles.inputIcon} />
+              <TextInput
+                testID="login-password-input"
+                style={styles.input}
+                placeholder={t.password}
+                placeholderTextColor={theme.colors.text.tertiary}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
+            </View>
             <TouchableOpacity
               testID="login-submit-button"
               style={[styles.button, loading && styles.buttonDisabled]}
@@ -74,21 +102,26 @@ export default function Login() {
               {loading ? (
                 <ActivityIndicator color={theme.colors.text.inverse} />
               ) : (
-                <Text style={styles.buttonText}>{t.login}</Text>
+                <View style={styles.buttonInner}>
+                  <Text style={styles.buttonText}>{t.login}</Text>
+                  <Ionicons name="arrow-forward" size={18} color={theme.colors.text.inverse} />
+                </View>
               )}
             </TouchableOpacity>
-          </View>
+          </Animated.View>
 
-          <TouchableOpacity
-            testID="login-register-link"
-            onPress={() => router.push('/(auth)/register')}
-            style={styles.linkContainer}
-          >
-            <Text style={styles.link}>
-              {t.no_account}{' '}
-              <Text style={styles.linkAccent}>{t.register}</Text>
-            </Text>
-          </TouchableOpacity>
+          <Animated.View style={{ opacity: fadeAnim }}>
+            <TouchableOpacity
+              testID="login-register-link"
+              onPress={() => router.push('/(auth)/register')}
+              style={styles.linkContainer}
+            >
+              <Text style={styles.link}>
+                {t.no_account}{' '}
+                <Text style={styles.linkAccent}>{t.register}</Text>
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
         </ScrollView>
       </KeyboardAvoidingView>
       <Text style={styles.credit}>Desarrollado por Felipe</Text>
@@ -101,19 +134,38 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   content: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24 },
   header: { alignItems: 'center', marginBottom: 48 },
-  title: { fontSize: 44, fontWeight: '900', color: theme.colors.text.primary, marginTop: 16 },
+  iconGlow: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: theme.colors.brand.primaryDim,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: theme.colors.brand.primary,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.4,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  title: { fontSize: 46, fontWeight: '900', color: theme.colors.text.primary, marginTop: 20 },
   accent: { color: theme.colors.brand.primary },
-  subtitle: { fontSize: theme.font.lg, color: theme.colors.text.secondary, marginTop: 8 },
-  form: { gap: 16 },
-  input: {
+  tagline: { fontSize: theme.font.base, color: theme.colors.text.secondary, marginTop: 8 },
+  form: { gap: 14 },
+  inputWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: theme.colors.bg.tertiary,
     borderRadius: theme.radius.md,
+    borderWidth: 1,
+    borderColor: theme.colors.border.subtle,
+  },
+  inputIcon: { marginLeft: 16 },
+  input: {
+    flex: 1,
     height: 52,
     color: theme.colors.text.primary,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     fontSize: theme.font.base,
-    borderWidth: 1,
-    borderColor: 'transparent',
   },
   button: {
     backgroundColor: theme.colors.brand.primary,
@@ -122,8 +174,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 8,
+    shadowColor: theme.colors.brand.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
   },
   buttonDisabled: { opacity: 0.6 },
+  buttonInner: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   buttonText: { color: theme.colors.text.inverse, fontWeight: '700', fontSize: theme.font.base },
   linkContainer: { marginTop: 32, alignItems: 'center' },
   link: { color: theme.colors.text.secondary, fontSize: theme.font.sm },

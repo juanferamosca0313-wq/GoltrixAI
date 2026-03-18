@@ -8,7 +8,7 @@ export default function Index() {
   if (isLoading) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Strike<Text style={styles.accent}>AI</Text></Text>
+        <Text style={styles.title}>Goltrix<Text style={styles.accent}>AI</Text></Text>
         <ActivityIndicator size="large" color="#00BFFF" style={styles.loader} />
       </View>
     );
