@@ -9,7 +9,7 @@ export default function Index() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Strike<Text style={styles.accent}>AI</Text></Text>
-        <ActivityIndicator size="large" color="#CCFF00" style={styles.loader} />
+        <ActivityIndicator size="large" color="#00BFFF" style={styles.loader} />
       </View>
     );
   }
@@ -20,6 +20,6 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#09090B', justifyContent: 'center', alignItems: 'center' },
   title: { fontSize: 48, fontWeight: '900', color: '#FAFAFA', marginBottom: 24 },
-  accent: { color: '#CCFF00' },
+  accent: { color: '#00BFFF' },
   loader: { marginTop: 16 },
 });
